@@ -18,7 +18,7 @@ export async function PATCH(
     
     try {
     await connectDB();
-    const { id } = params;
+    const { id } = await params;
     const body = await req.json();
     const { status, finalOdometer, revenue } = body;
 
