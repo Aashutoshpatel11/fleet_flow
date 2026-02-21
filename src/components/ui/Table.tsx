@@ -23,51 +23,53 @@ export function Table<T>({
 
     if (isLoading) {
         return (
-        <div className="w-full h-64 flex items-center justify-center border border-gray-200 rounded-lg bg-white">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-        </div>
+            <div className="w-full h-64 flex items-center justify-center border border-white/5 rounded-3xl bg-white/2 backdrop-blur-sm">
+                <div className="relative">
+                    <div className="absolute inset-0 rounded-full blur-[10px] bg-[#FFC229]/30 animate-pulse"></div>
+                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#FFC229] relative z-10"></div>
+                </div>
+            </div>
         );
     }
 
-return (
-    <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white">
-        <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-            <tr>
-                {columns.map((col, index) => (
-                <th
-                    key={index}
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
-                >
-                    {col.header}
-                </th>
-                ))}
-            </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-            {data.length === 0 ? (
-                <tr>
-                <td colSpan={columns.length} className="px-6 py-8 text-center text-sm text-gray-500">
-                    {emptyMessage}
-                </td>
-                </tr>
-            ) : (
-                data.map((row, rowIndex) => (
-                <tr key={rowIndex} className="hover:bg-gray-50 transition-colors">
-                    {columns.map((col, colIndex) => (
-                    <td key={colIndex} className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                        {/* Check if accessor is a function (for custom rendering) or a string (for direct property access) */}
-                        {typeof col.accessor === 'function' 
-                        ? col.accessor(row) 
-                        : String(row[col.accessor])}
-                    </td>
-                    ))}
-                </tr>
-                ))
-            )}
-            </tbody>
-        </table>
+    return (
+        <div className="overflow-x-auto rounded-3xl border border-white/5 bg-[#0a0a0a]/50 backdrop-blur-md shadow-2xl custom-scrollbar selection:bg-[#FFC229] selection:text-[#4A2B5E]">
+            <table className="min-w-full divide-y divide-white/10">
+                <thead className="bg-white/5">
+                    <tr>
+                        {columns.map((col, index) => (
+                            <th
+                                key={index}
+                                scope="col"
+                                className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-widest"
+                            >
+                                {col.header}
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5 bg-transparent">
+                    {data.length === 0 ? (
+                        <tr>
+                            <td colSpan={columns.length} className="px-6 py-12 text-center text-sm font-medium text-gray-500 bg-white/[0.01]">
+                                {emptyMessage}
+                            </td>
+                        </tr>
+                    ) : (
+                        data.map((row, rowIndex) => (
+                            <tr key={rowIndex} className="hover:bg-white/3 transition-colors duration-300 group">
+                                {columns.map((col, colIndex) => (
+                                    <td key={colIndex} className="px-6 py-4 whitespace-nowrap text-sm text-gray-300 group-hover:text-white transition-colors duration-300">
+                                        {typeof col.accessor === 'function' 
+                                            ? col.accessor(row) 
+                                            : String(row[col.accessor])}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))
+                    )}
+                </tbody>
+            </table>
         </div>
     );
 }

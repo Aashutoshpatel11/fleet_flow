@@ -54,10 +54,10 @@ const navigation = [
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const router = useRouter();
+    const pathname = usePathname();
+    const router = useRouter();
 
-  const handleLogout = async () => {
+    const handleLogout = async () => {
         try {
             await apiClient.post('/auth/logout');
             router.push('/login');
@@ -66,74 +66,82 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             document.cookie = "fleet_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             router.push('/login');
         }
-  };
+    };
 
-  return (
-    <div className="flex h-screen w-full bg-gray-50 overflow-hidden">
-      
-      <aside className="w-64 shrink-0 border-r border-gray-200 bg-white flex flex-col">
-
-        <div className="flex h-16 items-center px-6 border-b border-gray-200">
-            <Truck className="h-6 w-6 text-blue-600 mr-2" />
-            <span className="text-xl font-bold text-gray-900">FleetFlow</span>
-        </div>
-
-        <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-            {navigation.map((item) => {
-                const isActive = pathname === item.href;
-                const Icon = item.icon;
-
-                return (
-                <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`flex items-center px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
-                    isActive 
-                        ? 'bg-blue-50 text-blue-700' 
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                    }`}
-                >
-                    <Icon 
-                    className={`mr-3 h-5 w-5 shrink-0 ${
-                        isActive ? 'text-blue-700' : 'text-gray-400'
-                    }`} 
-                    />
-                    {item.name}
-                </Link>
-                );
-            })}
-        </nav>
-
-        <div className="border-t border-gray-200 p-4">
-            <button 
-                onClick={handleLogout}
-                className="flex w-full items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-red-50 hover:text-red-700 transition-colors"
-            >
-                <LogOut className="mr-3 h-5 w-5 text-gray-400 group-hover:text-red-700" />
-                Sign Out
-            </button>
-        </div>
-      </aside>
-
-      <div className="flex flex-1 flex-col overflow-hidden">
-        
-        <header className="h-16 shrink-0 border-b border-gray-200 bg-white flex items-center justify-between px-8 shadow-sm">
-            <h1 className="text-xl font-semibold text-gray-800">
-                {navigation.find(n => n.href === pathname)?.name || 'Dashboard'}
-            </h1>
+    return (
+        <div className="flex h-screen w-full bg-[#0a0a0a] overflow-hidden selection:bg-[#FFC229] selection:text-[#4A2B5E] text-white relative">
             
-            <div className="flex items-center">
-                <button className="flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
-                <UserCircle className="h-6 w-6 mr-2 text-gray-400" />
-                <span>My Profile</span>
-                </button>
-            </div>
-        </header>
+            <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#FFC229]/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#4A2B5E]/10 rounded-full blur-[100px] translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
 
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-8">
-            {children}
-        </main>
-      </div>
-    </div>
-  );
+            <aside className="w-72 shrink-0 border-r border-white/5 bg-[#0a0a0a]/50 backdrop-blur-xl flex flex-col relative z-20">
+
+                <div className="flex h-24 items-center px-8 border-b border-white/5">
+                    <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-[#FFC229]/10 mr-4 border border-[#FFC229]/20 shadow-[0_0_15px_rgba(255,194,41,0.15)]">
+                        <Truck className="h-5 w-5 text-[#FFC229]" />
+                    </div>
+                    <span className="text-2xl font-black text-white tracking-tight">FleetFlow</span>
+                </div>
+
+                <nav className="flex-1 overflow-y-auto py-8 px-4 space-y-2 custom-scrollbar">
+                    {navigation.map((item) => {
+                        const isActive = pathname === item.href;
+                        const Icon = item.icon;
+
+                        return (
+                        <Link
+                            key={item.name}
+                            href={item.href}
+                            className={`flex items-center px-4 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300 group ${
+                            isActive 
+                                ? 'bg-[#FFC229] text-[#1F2937] shadow-lg shadow-[#FFC229]/20 translate-x-1' 
+                                : 'text-gray-400 hover:bg-white/5 hover:text-white hover:translate-x-1'
+                            }`}
+                        >
+                            <Icon 
+                            className={`mr-4 h-5 w-5 shrink-0 transition-transform duration-300 ${
+                                isActive ? 'text-[#1F2937]' : 'text-gray-500 group-hover:text-[#FFC229] group-hover:scale-110'
+                            }`} 
+                            />
+                            {item.name}
+                        </Link>
+                        );
+                    })}
+                </nav>
+
+                <div className="border-t border-white/5 p-4 bg-[#0a0a0a]/80 backdrop-blur-md">
+                    <button 
+                        onClick={handleLogout}
+                        className="flex w-full items-center px-4 py-3.5 text-sm font-bold text-gray-500 rounded-2xl hover:bg-red-500/10 hover:text-red-400 transition-all duration-300 group"
+                    >
+                        <LogOut className="mr-4 h-5 w-5 text-gray-600 group-hover:text-red-400 transition-colors" />
+                        System Logout
+                    </button>
+                </div>
+            </aside>
+
+            <div className="flex flex-1 flex-col overflow-hidden relative z-10">
+                
+                <header className="h-24 shrink-0 border-b border-white/5 bg-white/[0.02] backdrop-blur-md flex items-center justify-between px-10 relative z-20">
+                    <div className="flex items-center gap-3">
+                        <div className="w-1.5 h-6 bg-[#4A2B5E] rounded-full"></div>
+                        <h1 className="text-2xl font-bold text-white tracking-wide">
+                            {navigation.find(n => n.href === pathname)?.name || 'Dashboard'}
+                        </h1>
+                    </div>
+                    
+                    <div className="flex items-center">
+                        <button className="flex items-center px-4 py-2.5 rounded-full bg-white/5 border border-white/10 text-sm font-bold text-gray-300 hover:text-white hover:bg-white/10 hover:border-[#FFC229]/50 transition-all duration-300 group shadow-sm">
+                            <UserCircle className="h-5 w-5 mr-2 text-gray-400 group-hover:text-[#FFC229] transition-colors" />
+                            <span>My Profile</span>
+                        </button>
+                    </div>
+                </header>
+
+                <main className="flex-1 overflow-y-auto p-10 custom-scrollbar relative z-10">
+                    {children}
+                </main>
+            </div>
+        </div>
+    );
 }
