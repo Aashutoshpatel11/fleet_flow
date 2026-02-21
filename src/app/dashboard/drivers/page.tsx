@@ -4,10 +4,12 @@ import { useDrivers } from '@/hooks/useDrivers';
 import { Table } from '@/components/ui/Table';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { Users, ShieldCheck, AlertTriangle } from 'lucide-react';
-import AddDriverModal from '@/components/drivers/AddDriverModal';
+import { useUIStore } from '@/store/useUIStore';
+import { Plus } from 'lucide-react';
 
 export default function DriverProfiles() {
     const { data: drivers, isLoading } = useDrivers();
+    const {openDriverModal} = useUIStore()
 
     const columns = [
         { header: 'Driver Name', accessor: 'name' as const },
@@ -53,7 +55,13 @@ export default function DriverProfiles() {
             <h1 className="text-2xl font-bold text-gray-900">Driver Management</h1>
             <p className="text-sm text-gray-500">Monitor compliance, safety scores, and duty status.</p>
             </div>
-            <AddDriverModal />
+            <button
+                onClick={() => openDriverModal}
+                className="flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition-all shadow-sm"
+                >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Driver
+            </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

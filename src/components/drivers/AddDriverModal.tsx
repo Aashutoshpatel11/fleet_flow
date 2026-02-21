@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { useUIStore } from '@/store/useUIStore';
-import { useCreateDriver } from '@/hooks/useCreateDriver';
+import { useCreateDriver } from '@/hooks/useCreateDrivers';
 import { X, UserPlus } from 'lucide-react';
 
 export default function AddDriverModal() {
